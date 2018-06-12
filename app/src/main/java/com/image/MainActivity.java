@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
                         .setColumns(3)
                         .setClip(true)
                         .build();
-                SelectedActivity.start(MainActivity.this, mConf);
+                SelectedActivity.start(MainActivity.this, mConf,002);
             }
         });
     }
