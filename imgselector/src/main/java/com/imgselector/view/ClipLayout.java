@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.imgselector.listener.IClipLayoutListener;
 import com.imgselector.uitl.ImgSelUtil;
 import com.imgselector.uitl.LogUtil;
 
@@ -30,8 +31,8 @@ public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderLi
     private Context mContext;
     private ClipImageView mClipImage;
     private ClipBorderView mClipBorder;
-    private String[] mArray = {"取消", "确定"};
-    private ClipLayoutListener listener;
+    private String[] mArray = {"取消", "裁剪"};
+    private IClipLayoutListener listener;
 
     public ClipLayout(@NonNull Context context) {
         this(context, null);
@@ -117,7 +118,7 @@ public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderLi
      */
     public void setImageUrl(String url) {
         if (mClipImage != null && listener != null) {
-            mClipImage.setImageUrl(url);
+            mClipImage.setImagePath(url);
             listener.Imageloader(mClipImage, url);
         }
     }
@@ -125,7 +126,7 @@ public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderLi
     /**
      * 设置对外接口
      */
-    public void setClipLayoutListener(ClipLayoutListener layoutListener) {
+    public void setClipLayoutListener(IClipLayoutListener layoutListener) {
         this.listener = layoutListener;
     }
 
@@ -156,17 +157,26 @@ public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderLi
         String folder = Environment.getExternalStorageDirectory() + "/" + mContext.getPackageName() + "/" + "image";
         ImgSelUtil.createFolder(folder, ImgSelUtil.MODE_UNCOVER);
         String fileName = folder + File.separator + Calendar.getInstance().getTime().toString() + ".png";
-        LogUtil.loge("裁剪之后的图片路径 = " + folder);
+        LogUtil.loge("裁剪之后的图片路径 = " + fileName);
         ImgSelUtil.createFile(fileName, ImgSelUtil.MODE_COVER);
         ImgSelUtil.saveBitmaps(mContext, bitmap, new File(fileName));
+        listener.ClipAfterPath(mClipImage,fileName);
     }
 
+    public ClipImageView getmClipImage() {
+        return mClipImage;
+    }
+
+    public ClipBorderView getmClipBorder() {
+        return mClipBorder;
+    }
 
     @Override
     public Path getPath(RectF rf) {
         Path path=new Path();
-//        path.addOval(rf, Path.Direction.CW);
         path.addRect(rf, Path.Direction.CW);
         return path;
     }
+
+
 }

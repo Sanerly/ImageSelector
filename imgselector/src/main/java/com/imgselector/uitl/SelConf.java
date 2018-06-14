@@ -1,5 +1,9 @@
 package com.imgselector.uitl;
 
+import com.imgselector.listener.Imageloader;
+import com.imgselector.observer.IObserver;
+import com.imgselector.observer.ObserverManager;
+
 import java.io.Serializable;
 
 /**
@@ -14,6 +18,7 @@ public class SelConf implements Serializable {
         this.maxCount = builder.maxCount;
         this.columns = builder.columns;
         this.isClip = builder.isClip;
+        this.observerKey=builder.observerKey;
     }
 
 
@@ -38,6 +43,10 @@ public class SelConf implements Serializable {
      */
     private boolean isClip;
 
+    /**
+     * 获取选中数据后的返回值的key
+     */
+    private String observerKey;
 
     public boolean isClip() {
         return isClip;
@@ -56,6 +65,10 @@ public class SelConf implements Serializable {
         return columns;
     }
 
+    public String getObserverKey() {
+        return observerKey;
+    }
+
 
     public static class Builder implements Serializable {
 
@@ -66,6 +79,9 @@ public class SelConf implements Serializable {
         private int columns;
 
         private boolean isClip;
+
+        private String observerKey;
+
 
         public Builder() {
 
@@ -96,11 +112,26 @@ public class SelConf implements Serializable {
             return this;
         }
 
-
+        /**
+         * 设置是否裁剪图片
+         */
         public Builder setClip(boolean isClip) {
             this.isClip = isClip;
             return this;
         }
+
+        /**
+         * 设置选择图片成功后返回给用户的数据
+         * @param key 返回数据的key
+         * @param observer 返回数据的观察者
+         * @return Builder
+         */
+        public Builder setObserver(String key, IObserver observer) {
+            this.observerKey=key;
+            ObserverManager.getInstance().addObserver(key,observer);
+            return this;
+        }
+
 
         public SelConf build() {
             return new SelConf(this);

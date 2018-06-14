@@ -11,10 +11,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.imgselector.R;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -26,18 +22,6 @@ import java.io.FileOutputStream;
 
 public class ImgSelUtil {
 
-    /**
-     * 设置默认使用的图片加载框架
-     * @param view
-     * @param url
-     */
-    public static void load(ImageView view, String url) {
-        Glide.with(view.getContext())
-                .load(url)
-                .error(R.mipmap.ic_default_image)
-                .placeholder(R.mipmap.ic_default_image)
-                .into(view);
-    }
 
 
     /**

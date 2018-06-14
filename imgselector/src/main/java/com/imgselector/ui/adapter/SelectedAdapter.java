@@ -1,12 +1,15 @@
 package com.imgselector.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.imgselector.ISMain;
 import com.imgselector.R;
+import com.imgselector.listener.Imageloader;
 import com.imgselector.model.ImageModel;
 import com.imgselector.uitl.ImgSelUtil;
 
@@ -20,10 +23,12 @@ public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHo
     private List<ImageModel> mDatas;
     private int mColumns;
     private OnItemClickListener listener;
+    private Context mContext;
 
-    public SelectedAdapter(List<ImageModel> mDatas, int columns) {
+    public SelectedAdapter(Context context,List<ImageModel> mDatas, int columns) {
         this.mDatas = mDatas;
         this.mColumns = columns;
+        this.mContext=context;
     }
 
     @Override
@@ -37,7 +42,12 @@ public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final ImageModel data = mDatas.get(position);
         ImgSelUtil.showImageLayoutMeasure(holder.mImage, mColumns);
-        ImgSelUtil.load(holder.mImage, data.getUrl());
+//        ImgSelUtil.load(holder.mImage, data.getUrl());
+//        if (listener!=null){
+//            listener.onLoader(holder.mImage, data.getUrl());
+//        }
+
+        ISMain.getInstance().load(mContext,holder.mImage, data.getUrl());
         setImageRes(data.isSelected(), holder.mCheckBox);
         setDisplay(data.isMulti(),holder.mCheckBox);
         if (data.isSelected()) {
@@ -49,13 +59,19 @@ public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHo
         holder.mCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onSelected(data, position);
+                if (listener!=null){
+                    listener.onSelected(data, position);
+                }
+
             }
         });
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onItemClick(data, position);
+                if (listener!=null){
+                    listener.onItemClick(data, position);
+                }
+
             }
         });
     }
@@ -103,5 +119,7 @@ public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHo
         void onSelected(ImageModel data, int pos);
 
         void onItemClick(ImageModel data, int pos);
+
+        void onLoader(ImageView view,String path);
     }
 }

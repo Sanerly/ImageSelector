@@ -46,8 +46,11 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
     private int mFlag;
     //两个触摸点的距离
     private float calSpace;
-    //默认的缩放比例
-    private float mScale=1;
+    //初始的缩放比例
+    private float mInitialScale = 1;
+    //根据手指缩放的比例
+//    private float mChangeScale = 1;
+
 
     public ClipImageView(Context context) {
         this(context, null);
@@ -78,9 +81,8 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
         int centerY = getHeight() / 2;
         //设置正方形大小
         setBorderRect(new RectF(centerX - spec, centerY - spec, centerX + spec, centerY + spec));
-        setPostCenter(centerX, centerY);
+        setPostCenter();
     }
-
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -95,7 +97,7 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
             case MotionEvent.ACTION_POINTER_DOWN:
                 calSpace = calSpacing(event);
                 boolean isArea = mBorderRect.contains(event.getX(), event.getY());
-                if (calSpace > 10f && isArea) {
+                if (calSpace > 10f) {
                     mSaveMatrix.set(mCurrentMatrix);
                     calMidPoint(mMidPointF, event);
                     mFlag = SCALE_FLAG;
@@ -117,11 +119,13 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
                         mCurrentMatrix.getValues(values);
                         scale = checkFitScale(scale, values);
                         mCurrentMatrix.postScale(scale, scale, mMidPointF.x, mMidPointF.y);
+//                        mChangeScale=scale;
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:// 单点离开屏幕时
             case MotionEvent.ACTION_POINTER_UP:// 第二个点离开屏幕时
+
                 mFlag = NONE_FLAG;
                 break;
         }
@@ -131,10 +135,10 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
 
 
     private float checkFitScale(float scale, float[] values) {
-        if (scale * values[Matrix.MSCALE_X] > mScale * 2)
-            scale = mScale * 2 / values[Matrix.MSCALE_X];
-        if (scale * values[Matrix.MSCALE_X] < mScale)
-            scale = mScale / values[Matrix.MSCALE_X];
+        if (scale * values[Matrix.MSCALE_X] > mInitialScale * 4)
+            scale = mInitialScale * 4 / values[Matrix.MSCALE_X];
+        if (scale * values[Matrix.MSCALE_X] < mInitialScale)
+            scale = mInitialScale / values[Matrix.MSCALE_X];
         return scale;
     }
 
@@ -212,15 +216,12 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
 
     /**
      * 在屏幕中心显示,
-     *
-     * @param centerX
-     * @param centerY
      */
-    private void setPostCenter(int centerX, int centerY) {
+    public void setPostCenter() {
         if (mBitmap == null) {
             return;
         }
-
+        mCurrentMatrix = new Matrix();
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
 
@@ -232,9 +233,10 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
             scale = frame / width;
         }
         mCurrentMatrix.postScale(scale, scale);
-        mCurrentMatrix.postTranslate(Math.round(centerX - (width * scale * 0.5f)), Math.round(centerY - (height * scale * 0.5f)));
+        mCurrentMatrix.postTranslate(Math.round(getWidth() / 2 - (width * scale * 0.5f)), Math.round(getHeight() / 2 - (height * scale * 0.5f)));
         setImageMatrix(mCurrentMatrix);
-        mScale = scale;
+        mInitialScale = scale;
+//        mChangeScale=scale;
     }
 
     /***
@@ -369,8 +371,8 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
         return getBorderRect().height();
     }
 
-    public void setImageUrl(String url) {
-        mBitmap = BitmapFactory.decodeFile(url);
+    public void setImagePath(String path) {
+        mBitmap = BitmapFactory.decodeFile(path);
 
     }
 
