@@ -33,6 +33,7 @@ import com.imgselector.uitl.LogUtil;
 import com.imgselector.uitl.SelConf;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -199,7 +200,9 @@ public class SelectedActivity extends AppCompatActivity implements OnItemClickLi
     Handler handler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
+            Collections.reverse(mDatas);
             mAdapter.notifyDataSetChanged();
+
             return false;
         }
     });
