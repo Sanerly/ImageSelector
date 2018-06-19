@@ -1,7 +1,6 @@
 package com.imgselector.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,12 +9,9 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.imgselector.ISMain;
 import com.imgselector.R;
-import com.imgselector.listener.Imageloader;
+import com.imgselector.loader.ImageManager;
 import com.imgselector.observer.ObserverManager;
-import com.imgselector.uitl.ImgSelUtil;
-import com.imgselector.uitl.LogUtil;
 import com.imgselector.uitl.SelConf;
 import com.imgselector.view.ClipLayout;
 import com.imgselector.listener.IClipLayoutListener;
@@ -106,7 +102,7 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
     public void Imageloader(ImageView view, String path) {
 //        LogUtil.logd("------url-----" + path);
 //        ImgSelUtil.load(view, path);
-        ISMain.getInstance().load(this,view,path);
+        ImageManager.getInstance().load(this,view,path);
     }
 
     @Override
@@ -128,7 +124,8 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
         if (isMultiSelected) {
             //多选
 //            ImgSelUtil.load(view, path);
-            ISMain.getInstance().load(this,view,path);
+//            ISMain.getInstance().load(this,view,path);
+            ImageManager.getInstance().load(this,view,path);
             clipLayout.getmClipImage().setImagePath(path);
             clipLayout.getmClipImage().setPostCenter();
         } else {

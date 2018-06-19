@@ -1,6 +1,7 @@
 package com.imgselector.uitl;
 
-import com.imgselector.listener.Imageloader;
+import com.imgselector.loader.ImageManager;
+import com.imgselector.loader.Imageloader;
 import com.imgselector.observer.IObserver;
 import com.imgselector.observer.ObserverManager;
 
@@ -47,6 +48,8 @@ public class SelConf implements Serializable {
      * 获取选中数据后的返回值的key
      */
     private String observerKey;
+
+
 
     public boolean isClip() {
         return isClip;
@@ -132,7 +135,15 @@ public class SelConf implements Serializable {
             return this;
         }
 
-
+        /**
+         * 设置图片加载器
+         * @param imageloader
+         * @return
+         */
+        public Builder setImageloader(Imageloader imageloader){
+            ImageManager.getInstance().setImageloader(imageloader);
+            return this;
+        }
         public SelConf build() {
             return new SelConf(this);
         }

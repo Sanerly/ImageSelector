@@ -1,5 +1,6 @@
 package com.imgselector.ui.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,9 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.imgselector.ISMain;
 import com.imgselector.R;
-import com.imgselector.listener.Imageloader;
+import com.imgselector.listener.OnItemClickListener;
+import com.imgselector.loader.ImageManager;
 import com.imgselector.model.ImageModel;
 import com.imgselector.uitl.ImgSelUtil;
 
@@ -39,15 +40,10 @@ public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final ImageModel data = mDatas.get(position);
         ImgSelUtil.showImageLayoutMeasure(holder.mImage, mColumns);
-//        ImgSelUtil.load(holder.mImage, data.getUrl());
-//        if (listener!=null){
-//            listener.onLoader(holder.mImage, data.getUrl());
-//        }
-
-        ISMain.getInstance().load(mContext,holder.mImage, data.getUrl());
+        ImageManager.getInstance().load(mContext,holder.mImage, data.getUrl());
         setImageRes(data.isSelected(), holder.mCheckBox);
         setDisplay(data.isMulti(),holder.mCheckBox);
         if (data.isSelected()) {
@@ -115,11 +111,4 @@ public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHo
         this.listener = onItemLongClickListener;
     }
 
-    public interface OnItemClickListener {
-        void onSelected(ImageModel data, int pos);
-
-        void onItemClick(ImageModel data, int pos);
-
-        void onLoader(ImageView view,String path);
-    }
 }

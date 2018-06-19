@@ -1,14 +1,19 @@
 package com.imgselector.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,8 +24,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.imgselector.ISMain;
 import com.imgselector.R;
+import com.imgselector.listener.OnItemClickListener;
 import com.imgselector.model.ImageModel;
 import com.imgselector.observer.ObserverManager;
 import com.imgselector.ui.adapter.SelectedAdapter;
@@ -31,7 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SelectedActivity extends AppCompatActivity implements SelectedAdapter.OnItemClickListener, View.OnClickListener {
+public class SelectedActivity extends AppCompatActivity implements OnItemClickListener, View.OnClickListener {
 
     public static String SELECTED_CONF = "SelectedConf";
     public static SelectedActivity Instance;
@@ -59,6 +64,7 @@ public class SelectedActivity extends AppCompatActivity implements SelectedAdapt
 
     private ArrayList<String> resultArray;
 
+    private  int STORAGE_REQUEST_CODE=1;
 
     public static <T> void start(T t, SelConf conf) {
         if (t instanceof Activity) {
@@ -81,14 +87,36 @@ public class SelectedActivity extends AppCompatActivity implements SelectedAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected);
         init();
+    }
+
+    private void init() {
+        Instance = this;
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    STORAGE_REQUEST_CODE);
+        } else {
+            initPermission();
+        }
+    }
+
+    private void initPermission() {
         intentExtra();
         initView();
         initRecycler();
         loadData();
     }
 
-    private void init() {
-        Instance = this;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode==STORAGE_REQUEST_CODE){
+            if (grantResults.length >= 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initPermission();
+            } else {
+                Toast.makeText(this, "请打开存储空间权限", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override
@@ -150,12 +178,11 @@ public class SelectedActivity extends AppCompatActivity implements SelectedAdapt
             @Override
             public void run() {
                 Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-                Cursor cursor = getContentResolver().query(uri, null, null, null, MediaStore.Images.Media.DEFAULT_SORT_ORDER);
+                Cursor cursor = getContentResolver().query(uri, null, null, null, MediaStore.Images.Media.DATE_ADDED);
                 if (cursor != null) {
                     while (cursor.moveToNext()) {
                         ImageModel photoModel = new ImageModel();
                         String url = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-//                        LogUtil.logd("图片路径********" + url);
                         photoModel.setUrl(url);
                         photoModel.setSelected(false);
                         photoModel.setMulti(isMultiSelected);
@@ -215,12 +242,6 @@ public class SelectedActivity extends AppCompatActivity implements SelectedAdapt
         }
     }
 
-    @Override
-    public void onLoader(ImageView view, String path) {
-
-    }
-
-
     private void setCompleteNum(int count) {
         String str;
         if (count < 1) {
@@ -232,9 +253,6 @@ public class SelectedActivity extends AppCompatActivity implements SelectedAdapt
     }
 
 
-    public void toast(String str) {
-        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
-    }
 
 
     @Override
@@ -302,4 +320,9 @@ public class SelectedActivity extends AppCompatActivity implements SelectedAdapt
         Instance = null;
 //        ObserverManager.getInstance().clear();
     }
+
+    public void toast(String str) {
+        Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+
 }
