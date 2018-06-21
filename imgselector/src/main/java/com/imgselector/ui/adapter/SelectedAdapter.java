@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.imgselector.R;
-import com.imgselector.listener.OnItemClickListener;
+import com.imgselector.listener.OnSelectedItemListener;
 import com.imgselector.loader.ImageManager;
 import com.imgselector.model.ImageModel;
 import com.imgselector.uitl.ImgSelUtil;
@@ -23,7 +23,7 @@ import java.util.List;
 public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHolder> {
     private List<ImageModel> mDatas;
     private int mColumns;
-    private OnItemClickListener listener;
+    private OnSelectedItemListener listener;
     private Context mContext;
 
     public SelectedAdapter(Context context,List<ImageModel> mDatas, int columns) {
@@ -107,7 +107,7 @@ public class SelectedAdapter extends RecyclerView.Adapter<SelectedAdapter.ViewHo
     }
 
 
-    public void setOnItemClickListener(OnItemClickListener onItemLongClickListener) {
+    public void setOnItemClickListener(OnSelectedItemListener onItemLongClickListener) {
         this.listener = onItemLongClickListener;
     }
 

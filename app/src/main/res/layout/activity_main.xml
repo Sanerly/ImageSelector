@@ -13,10 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="选择图片"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"/>
+    </ScrollView>
 
-    <ImageView
-        android:id="@+id/iv_view"
-        android:layout_width="wrap_content"
-        android:layout_margin="20dp"
-        android:layout_height="wrap_content"/>
 </LinearLayout>

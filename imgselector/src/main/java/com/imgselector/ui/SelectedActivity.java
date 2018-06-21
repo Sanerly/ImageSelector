@@ -25,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.imgselector.R;
-import com.imgselector.listener.OnItemClickListener;
+import com.imgselector.listener.OnSelectedItemListener;
 import com.imgselector.model.ImageModel;
 import com.imgselector.observer.ObserverManager;
 import com.imgselector.ui.adapter.SelectedAdapter;
@@ -37,7 +37,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class SelectedActivity extends AppCompatActivity implements OnItemClickListener, View.OnClickListener {
+public class SelectedActivity extends AppCompatActivity implements OnSelectedItemListener, View.OnClickListener {
 
     public static String SELECTED_CONF = "SelectedConf";
     public static SelectedActivity Instance;
@@ -202,7 +202,6 @@ public class SelectedActivity extends AppCompatActivity implements OnItemClickLi
         public boolean handleMessage(Message msg) {
             Collections.reverse(mDatas);
             mAdapter.notifyDataSetChanged();
-
             return false;
         }
     });
