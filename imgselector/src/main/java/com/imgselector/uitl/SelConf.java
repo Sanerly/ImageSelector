@@ -8,7 +8,9 @@ import com.imgselector.observer.ObserverManager;
 import java.io.Serializable;
 
 /**
- * Created by sunset on 2018/3/30.
+ *@介绍： 传递设置的参数
+ *@作者： sunset
+ *@日期： 2018/3/30
  */
 
 public class SelConf implements Serializable {
@@ -20,6 +22,8 @@ public class SelConf implements Serializable {
         this.columns = builder.columns;
         this.isClip = builder.isClip;
         this.observerKey=builder.observerKey;
+        this.borderSize=builder.borderSize;
+        this.toolbarBackground=builder.toolbarBackground;
     }
 
 
@@ -49,7 +53,15 @@ public class SelConf implements Serializable {
      */
     private String observerKey;
 
+    /**
+     * 边框尺寸
+     */
+    private float borderSize;
 
+    /**
+     *选择页面顶部背景颜色
+     */
+    private int toolbarBackground;
 
     public boolean isClip() {
         return isClip;
@@ -72,6 +84,13 @@ public class SelConf implements Serializable {
         return observerKey;
     }
 
+    public float getBorderSize() {
+        return borderSize;
+    }
+
+    public int getToolbarBackground() {
+        return toolbarBackground;
+    }
 
     public static class Builder implements Serializable {
 
@@ -85,7 +104,9 @@ public class SelConf implements Serializable {
 
         private String observerKey;
 
+        private float borderSize;
 
+        private int toolbarBackground;
         public Builder() {
 
         }
@@ -137,13 +158,33 @@ public class SelConf implements Serializable {
 
         /**
          * 设置图片加载器
-         * @param imageloader
-         * @return
+         * @param imageloader 图片加载接口
+         * @return Builder
          */
         public Builder setImageloader(Imageloader imageloader){
             ImageManager.getInstance().setImageloader(imageloader);
             return this;
         }
+
+        /**
+         * 边框尺寸
+         * @param borderSize 浮点类型
+         * @return Builder
+         */
+        public Builder setBorderSize(float borderSize) {
+            this.borderSize = borderSize;
+            return this;
+        }
+
+        /**
+         * 设置选择页面顶部背景颜色
+         * @param toolbarBackground color资源
+         */
+        public Builder setToolbarBackground(int toolbarBackground) {
+            this.toolbarBackground = toolbarBackground;
+            return this;
+        }
+
         public SelConf build() {
             return new SelConf(this);
         }

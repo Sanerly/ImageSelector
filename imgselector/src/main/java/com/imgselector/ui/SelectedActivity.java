@@ -21,6 +21,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +53,7 @@ public class SelectedActivity extends AppCompatActivity implements OnSelectedIte
     private boolean isMultiSelected = true;
     private boolean isClip = true;
     private String observerKey = String.valueOf(RESULT_OK);
-
+    private int toolbarBackground=R.color.colorPrimary;
 
     private RecyclerView mRecycler;
     private List<ImageModel> mDatas;
@@ -60,6 +61,7 @@ public class SelectedActivity extends AppCompatActivity implements OnSelectedIte
     private ImageView mImageBack;
     private TextView mTextTitle;
     private Button mButComplete;
+    private RelativeLayout mToolbar;
     //当前已选择的图片数量
     private int mCurrentCount = 0;
 
@@ -145,6 +147,7 @@ public class SelectedActivity extends AppCompatActivity implements OnSelectedIte
             isMultiSelected = mConf.isMultiSelected();
             isClip = mConf.isClip();
             observerKey = mConf.getObserverKey();
+            toolbarBackground=mConf.getToolbarBackground();
         }
     }
 
@@ -153,6 +156,8 @@ public class SelectedActivity extends AppCompatActivity implements OnSelectedIte
         mImageBack = findViewById(R.id.selected_back);
         mTextTitle = findViewById(R.id.selected_title);
         mButComplete = findViewById(R.id.selected_complete);
+        mToolbar=findViewById(R.id.selected_toolbar);
+        mToolbar.setBackgroundResource(toolbarBackground);
         mImageBack.setOnClickListener(this);
         mButComplete.setOnClickListener(this);
         if (!isMultiSelected) {

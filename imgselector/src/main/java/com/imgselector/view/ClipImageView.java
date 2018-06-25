@@ -48,9 +48,6 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
     private float calSpace;
     //初始的缩放比例
     private float mInitialScale = 1;
-    //根据手指缩放的比例
-//    private float mChangeScale = 1;
-
 
     public ClipImageView(Context context) {
         this(context, null);
@@ -119,13 +116,12 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
                         mCurrentMatrix.getValues(values);
                         scale = checkFitScale(scale, values);
                         mCurrentMatrix.postScale(scale, scale, mMidPointF.x, mMidPointF.y);
-//                        mChangeScale=scale;
+
                     }
                 }
                 break;
             case MotionEvent.ACTION_UP:// 单点离开屏幕时
             case MotionEvent.ACTION_POINTER_UP:// 第二个点离开屏幕时
-
                 mFlag = NONE_FLAG;
                 break;
         }
@@ -236,7 +232,6 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
         mCurrentMatrix.postTranslate(Math.round(getWidth() / 2 - (width * scale * 0.5f)), Math.round(getHeight() / 2 - (height * scale * 0.5f)));
         setImageMatrix(mCurrentMatrix);
         mInitialScale = scale;
-//        mChangeScale=scale;
     }
 
     /***
@@ -274,7 +269,6 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
             LogUtil.loge("bitmap resource is null");
             return null;
         }
-
 
         //以下所有步骤的思路，均是将点或者大小还原到加载图片大小比例后，再进行处理。
         float[] values = new float[9];
@@ -316,14 +310,14 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
     /**
      * 获取移动图片后的偏移量
      */
-    public float getActuallyScrollY() {
+    private float getActuallyScrollY() {
         return getScrollY() + getCenterOffsetScrollY();
     }
 
     /**
      * 获取移动图片后的偏移量
      */
-    public float getActuallyScrollX() {
+    private float getActuallyScrollX() {
         return getScrollX() + getCenterOffsetScrollX();
     }
 
@@ -333,7 +327,7 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
      *
      * @return X 轴的偏移量
      */
-    public float getCenterOffsetScrollX() {
+    private float getCenterOffsetScrollX() {
         int sourceCenterX = getWidth() / 2;
         int afterCenterX = (int) getCurrentRectF().centerX();
         return (float) (afterCenterX - sourceCenterX);
@@ -345,7 +339,7 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
      *
      * @return Y 轴的偏移量
      */
-    public float getCenterOffsetScrollY() {
+    private float getCenterOffsetScrollY() {
         double sourceCenterY = getHeight() / 2;
         double afterCenterY = getCurrentRectF().centerY();
         return (float) (afterCenterY - sourceCenterY);
@@ -354,7 +348,7 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
     /**
      * 获取实际裁剪的宽度
      */
-    public float getClipWidth() {
+    private float getClipWidth() {
         if (getBorderRect() == null) {
             return 0;
         }
@@ -364,7 +358,7 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
     /**
      * 获取实际裁剪的高度
      */
-    public float getClipHeight() {
+    private float getClipHeight() {
         if (getBorderRect() == null) {
             return 0;
         }

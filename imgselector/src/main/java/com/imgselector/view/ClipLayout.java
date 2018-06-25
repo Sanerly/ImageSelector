@@ -33,10 +33,6 @@ import java.util.List;
 public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderListener {
     private Context mContext;
     /**
-     * 默认图片裁剪大小
-     */
-    public static float SPEC_SIZE = 0.5f;
-    /**
      * 图片裁剪
      */
     private ClipImageView mClipImage;
@@ -79,13 +75,11 @@ public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderLi
      */
     private void addChildView() {
         mClipImage = new ClipImageView(mContext);
+        addView(mClipImage);
         mClipBorder = new ClipBorderView(mContext);
         mClipBorder.setBorderListener(this);
-        addView(mClipImage);
         addView(mClipBorder);
         addBottomLayout();
-        setClipSize(SPEC_SIZE);
-
     }
 
     private void addBottomLayout() {

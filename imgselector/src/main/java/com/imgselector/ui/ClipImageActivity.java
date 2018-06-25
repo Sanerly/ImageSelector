@@ -30,9 +30,11 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
     private SelConf mConf;
     private String observerKey = String.valueOf(RESULT_OK);
     private boolean isMultiSelected = true;
+    private float borderSize = 0.8f;
     private List<String> mButtonArray;
     private ImageAdapter imagePagerAdapter;
     private int mPosition = 0;
+
     public static <T> void start(T t, ArrayList<String> imagesArray, SelConf conf) {
         if (t instanceof Activity) {
             Activity activity = (Activity) t;
@@ -67,7 +69,7 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
     private void init() {
         imagesArray = new ArrayList<>();
         imagesArray = getIntent().getStringArrayListExtra(IMAGES_PATH_ARRAY);
-        mButtonArray=new ArrayList<>();
+        mButtonArray = new ArrayList<>();
         mButtonArray.add("取消");
         mButtonArray.add("裁剪");
     }
@@ -80,17 +82,16 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
         } else {
             isMultiSelected = mConf.isMultiSelected();
             observerKey = mConf.getObserverKey();
+            borderSize = mConf.getBorderSize();
         }
     }
 
 
     private void initData() {
         if (imagesArray == null || imagesArray.size() <= 0) return;
-        for (String str : imagesArray) {
-            clipLayout.setImageUrl(str);
-        }
+        clipLayout.setImageUrl(imagesArray.get(0));
         if (isMultiSelected) {
-            mButtonArray.add("完成") ;
+            mButtonArray.add("完成");
             imagePagerAdapter = new ImageAdapter(this, imagesArray);
             imagePagerAdapter.setClipImageItemListener(this);
             clipLayout.setRecyclerPagerAdapter(imagePagerAdapter);
@@ -101,7 +102,7 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
     private void initView() {
         clipLayout = findViewById(R.id.clip_layout);
         clipLayout.setClipLayoutListener(this);
-        clipLayout.setClipSize(0.7f);
+        clipLayout.setClipSize(borderSize);
     }
 
     /**
@@ -109,7 +110,8 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
      */
     private void onComplete() {
         ObserverManager.getInstance().sendObserver(observerKey, imagesArray);
-        SelectedActivity.Instance.finish();
+        if (SelectedActivity.Instance != null)
+            SelectedActivity.Instance.finish();
         finish();
     }
 
@@ -135,15 +137,13 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
     }
 
 
-
     @Override
     public void ClipAfterPath(ImageView view, String path) {
 
         if (isMultiSelected) {
             //多选
-            if (imagePagerAdapter!=null){
-                imagePagerAdapter.notifyItemChanged(mPosition);
-            }
+            if (imagePagerAdapter == null) return;
+            imagePagerAdapter.notifyItemChanged(mPosition);
             imagesArray.set(mPosition, path);
             clipLayout.setImageUrl(path);
             clipLayout.getClipImage().setPostCenter();
@@ -156,7 +156,6 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
 
 
     }
-
 
 
     @Override
