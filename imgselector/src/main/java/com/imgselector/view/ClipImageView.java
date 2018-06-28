@@ -19,8 +19,11 @@ import android.view.MotionEvent;
 
 import com.imgselector.uitl.LogUtil;
 
+
 /**
- * Created by sunset on 2018/4/11.
+ *@介绍： 图片工作类
+ *@作者： sunset
+ *@日期：  2018/4/11
  */
 
 public class ClipImageView extends android.support.v7.widget.AppCompatImageView {
@@ -130,6 +133,9 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
     }
 
 
+    /**
+     * 图片缩放比率检测
+     */
     private float checkFitScale(float scale, float[] values) {
         if (scale * values[Matrix.MSCALE_X] > mInitialScale * 4)
             scale = mInitialScale * 4 / values[Matrix.MSCALE_X];
