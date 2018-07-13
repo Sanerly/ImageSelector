@@ -1,9 +1,9 @@
 # ImageSelector
 
  - 多选
- ![这里写图片描述](https://img-blog.csdn.net/20180628094945880)
+ ![](https://img-blog.csdn.net/20180628094945880)
  - 单选
-![这里写图片描述](https://img-blog.csdn.net/20180628095119805)
+![](https://img-blog.csdn.net/20180628095119805)
 
 主要功能
 --
@@ -101,6 +101,3 @@ implementation 'com.github.Sunsetzp:ImageSelector:1.01'
 ```
 
 如果是单独启动裁剪页面，只需要配置Imageloader 和IObserver 、图片裁剪框大小即可。
-
-
-[<font color='red' size='6'>项目地址</font>](https://github.com/Sunsetzp/ImageSelector)
