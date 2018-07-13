@@ -1,9 +1,9 @@
 # ImageSelector
 
  - 多选
- ![](https://img-blog.csdn.net/20180628094945880.gif)
+ ![描述](https://img-blog.csdn.net/20180628094945880)
  - 单选
-![](https://img-blog.csdn.net/20180628095119805.gif)
+![描述](https://img-blog.csdn.net/20180628095119805)
 
 主要功能
 --
