@@ -1,9 +1,9 @@
 # ImageSelector
 
  - 多选
- ![描述](https://img-blog.csdn.net/20180628094945880)
+ ![描述](http://thyrsi.com/t6/369/1536545675x-1566663106.gif)
  - 单选
-![描述](https://img-blog.csdn.net/20180628095119805)
+![描述](http://thyrsi.com/t6/369/1536545699x-1566663106.gif)
 
 主要功能
 --
