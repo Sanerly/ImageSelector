@@ -21,9 +21,9 @@ import com.imgselector.uitl.LogUtil;
 
 
 /**
- *@介绍： 图片工作类
- *@作者： sunset
- *@日期：  2018/4/11
+ * @介绍： 图片工作类
+ * @作者： sunset
+ * @日期： 2018/4/11
  */
 
 public class ClipImageView extends android.support.v7.widget.AppCompatImageView {
@@ -229,13 +229,19 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
 
         float frame = getBorderRect().right - getBorderRect().left;
         float scale;
-        if (height < frame) {
+        float dx;
+        float dy;
+        if (height < width) {
             scale = frame / height;
         } else {
             scale = frame / width;
         }
+
+        dx = Math.round((getWidth() - width * scale) * 0.5f);
+        dy = Math.round((getHeight() - height * scale) * 0.5f);
+
         mCurrentMatrix.postScale(scale, scale);
-        mCurrentMatrix.postTranslate(Math.round(getWidth() / 2 - (width * scale * 0.5f)), Math.round(getHeight() / 2 - (height * scale * 0.5f)));
+        mCurrentMatrix.postTranslate(dx, dy);
         setImageMatrix(mCurrentMatrix);
         mInitialScale = scale;
     }
@@ -295,7 +301,7 @@ public class ClipImageView extends android.support.v7.widget.AppCompatImageView 
         Bitmap saveBitmap = Bitmap.createBitmap(clipWidth, clipHeight, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(saveBitmap);
         //当裁剪超出图片边界，超出区域以颜色填充
-        canvas.drawColor(Color.RED);
+        canvas.drawColor(Color.WHITE);
         //计算显示与实际裁剪的大小
         int showRight = clipWidth;
         int showBottom = clipHeight;

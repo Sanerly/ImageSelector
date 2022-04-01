@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by sunset on 2018/6/14.
  */
 
-public  interface Imageloader extends Serializable {
+public interface ImageLoader extends Serializable {
 
-    void  load(Context context,ImageView image, String path);
+    void load(Context context, ImageView image, String path);
 }

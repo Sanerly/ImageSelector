@@ -22,23 +22,6 @@ import java.io.FileOutputStream;
 
 public class ImgSelUtil {
 
-
-
-    /**
-     * 设置图片选择器的图片大小
-     * @param view
-     * @param columns
-     */
-    public static void showImageLayoutMeasure(View view, int columns) {
-        WindowManager wm = (WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics dm = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(dm);
-        ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = dm.widthPixels / columns;
-        params.height = dm.widthPixels / columns;
-        view.setLayoutParams(params);
-    }
-
     /**
      * 创建文件的模式，已经存在的文件要覆盖
      */
@@ -142,4 +125,18 @@ public class ImgSelUtil {
     }
 
 
+    /**
+     * 设置图片选择器的图片大小
+     * @param view
+     * @param columns
+     */
+    public static void showImageLayoutMeasure(View view, int columns) {
+        WindowManager wm = (WindowManager) view.getContext().getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(dm);
+        ViewGroup.LayoutParams params = view.getLayoutParams();
+        params.width = dm.widthPixels / columns;
+        params.height = dm.widthPixels / columns;
+        view.setLayoutParams(params);
+    }
 }

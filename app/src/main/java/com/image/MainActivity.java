@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
 import com.imgselector.ISMain;
-import com.imgselector.loader.Imageloader;
+import com.imgselector.loader.ImageLoader;
 import com.imgselector.observer.IObserver;
 import com.imgselector.uitl.LogUtil;
 import com.imgselector.uitl.SelConf;
@@ -31,12 +31,12 @@ public class MainActivity extends AppCompatActivity {
         linearLayout = findViewById(R.id.recycler);
         mConf = new SelConf.Builder()
                 .setMaxCount(9)
-                .setMultiSelected(true)
+                .setMultiSelected(false)
                 .setColumns(3)
                 .setClip(true)
                 .setBorderSize(0.7f)
                 .setObserver(String.valueOf(RESULT_OK), iObserver)
-                .setImageloader(imageloader)
+                .setImageLoader(imageloader)
                 .setToolbarBackground(R.color.toolbarBackground)
                 .build();
         button.setOnClickListener(new View.OnClickListener() {
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    Imageloader imageloader = new Imageloader() {
+    ImageLoader imageloader = new ImageLoader() {
         @Override
         public void load(Context context, ImageView image, String path) {
             loader(context, image, path);

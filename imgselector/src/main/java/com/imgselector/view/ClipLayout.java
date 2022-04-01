@@ -26,8 +26,10 @@ import com.imgselector.uitl.ImgSelUtil;
 import com.imgselector.uitl.LogUtil;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderListener {
@@ -212,10 +214,12 @@ public class ClipLayout extends FrameLayout implements ClipBorderView.onBorderLi
         if (bitmap == null) {
             return;
         }
+        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyyMMdd_HHmmsss", Locale.ENGLISH);
+        String date = sDateFormat.format(new java.util.Date());
         //保存图片
-        String folder = Environment.getExternalStorageDirectory() + "/" + mContext.getPackageName() + "/" + "image";
+        String folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/" + mContext.getPackageName() + "/" + "image";
         ImgSelUtil.createFolder(folder, ImgSelUtil.MODE_UNCOVER);
-        String fileName = folder + File.separator + Calendar.getInstance().getTime().toString() + ".png";
+        String fileName = folder + File.separator + "CLIP_" + date + ".jpg";
         LogUtil.loge("裁剪之后的图片路径 = " + fileName);
         ImgSelUtil.createFile(fileName, ImgSelUtil.MODE_COVER);
         ImgSelUtil.saveBitmaps(mContext, bitmap, new File(fileName));

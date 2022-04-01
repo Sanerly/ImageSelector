@@ -1,12 +1,7 @@
 package com.imgselector;
 
-import android.content.Context;
-import android.widget.ImageView;
-
-import com.imgselector.loader.Imageloader;
 import com.imgselector.ui.ClipImageActivity;
 import com.imgselector.ui.SelectedActivity;
-import com.imgselector.uitl.LogUtil;
 import com.imgselector.uitl.SelConf;
 
 import java.util.ArrayList;

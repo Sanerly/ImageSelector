@@ -11,7 +11,7 @@ import com.imgselector.uitl.LogUtil;
  * 图片加载管理
  */
 public class ImageManager {
-    private  Imageloader mImageloader;
+    private ImageLoader mImageloader;
     private static ImageManager instance;
 
     public static ImageManager getInstance(){
@@ -31,7 +31,7 @@ public class ImageManager {
      * 加载图片的对外接口
      * @param imageloader
      */
-    public  void setImageloader(Imageloader imageloader){
+    public  void setImageLoader(ImageLoader imageloader){
         this.mImageloader=imageloader;
     }
 

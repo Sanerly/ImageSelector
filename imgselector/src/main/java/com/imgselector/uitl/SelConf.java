@@ -1,7 +1,7 @@
 package com.imgselector.uitl;
 
 import com.imgselector.loader.ImageManager;
-import com.imgselector.loader.Imageloader;
+import com.imgselector.loader.ImageLoader;
 import com.imgselector.observer.IObserver;
 import com.imgselector.observer.ObserverManager;
 
@@ -161,8 +161,8 @@ public class SelConf implements Serializable {
          * @param imageloader 图片加载接口
          * @return Builder
          */
-        public Builder setImageloader(Imageloader imageloader){
-            ImageManager.getInstance().setImageloader(imageloader);
+        public Builder setImageLoader(ImageLoader imageloader){
+            ImageManager.getInstance().setImageLoader(imageloader);
             return this;
         }
 

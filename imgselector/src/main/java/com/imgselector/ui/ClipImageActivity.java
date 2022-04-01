@@ -143,8 +143,8 @@ public class ClipImageActivity extends AppCompatActivity implements IClipLayoutL
         if (isMultiSelected) {
             //多选
             if (imagePagerAdapter == null) return;
-            imagePagerAdapter.notifyItemChanged(mPosition);
             imagesArray.set(mPosition, path);
+            imagePagerAdapter.notifyItemChanged(mPosition);
             clipLayout.setImageUrl(path);
             clipLayout.getClipImage().setPostCenter();
         } else {
